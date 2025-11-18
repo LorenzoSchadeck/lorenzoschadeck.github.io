@@ -51,7 +51,7 @@ const App = () => {
       image: ECHimg,
       video: ECHvid,
       technologies: ["Unity", "C#", "Psychological Horror", "Narrative Design"],
-      link: "#",
+      link: "https://lorenzoschadeck.itch.io/echoes-chapter-1",
       status: "Em Desenvolvimento",
       role: "Lead Developer"
     },
