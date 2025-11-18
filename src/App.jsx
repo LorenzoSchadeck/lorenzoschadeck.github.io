@@ -312,11 +312,11 @@ const App = () => {
                 transition={{ duration: 0.8, delay: index * 0.1 }}
               >
                 <Card className="card-hover overflow-hidden">
-                  <div className="relative">
+                  <div className="relative overflow-hidden">
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-48 object-cover"
+                      className="project-image w-full h-48 object-cover"
                     />
                     <div className="absolute top-4 right-4">
                       <Badge variant="secondary">{project.status}</Badge>
