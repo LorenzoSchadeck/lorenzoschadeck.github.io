@@ -110,7 +110,7 @@ const App = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-md border-b border-border">
+      <nav className="fixed top-0 w-full z-50 nav-elevated backdrop-blur-md border-b border-white/5">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <motion.div
@@ -127,10 +127,10 @@ const App = () => {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-md transition-colors ${
+                  className={`nav-button flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
                     activeSection === item.id
-                      ? 'text-primary bg-primary/10'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'nav-button-active text-white'
+                      : 'text-slate-300 hover:text-white'
                   }`}
                 >
                   <item.icon size={16} />
@@ -163,7 +163,11 @@ const App = () => {
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className="flex items-center space-x-2 w-full px-3 py-2 rounded-md text-left transition-colors hover:bg-accent"
+                    className={`nav-button flex items-center space-x-2 w-full px-4 py-3 rounded-lg text-left transition-all ${
+                      activeSection === item.id
+                        ? 'nav-button-active text-white'
+                        : 'text-slate-300 hover:text-white hover:bg-white/5'
+                    }`}
                   >
                     <item.icon size={16} />
                     <span>{item.label}</span>
@@ -186,7 +190,7 @@ const App = () => {
             className="space-y-6"
           >
             <h1 className="text-5xl md:text-7xl font-bold">
-              Olá, eu sou{' '}
+              Olá, eu sou o{' '}
               <span className="text-gradient">Lorenzo</span>
             </h1>
             <div className="text-xl md:text-2xl text-muted-foreground space-y-2">
@@ -197,15 +201,15 @@ const App = () => {
               <Button
                 size="lg"
                 onClick={() => scrollToSection('projects')}
-                className="glow-effect"
+                className="bg-[#0a0a0f] hover:bg-[#151520] border border-slate-700 text-white"
               >
                 <Gamepad2 className="mr-2" size={20} />
                 Ver Projetos
               </Button>
               <Button
-                variant="outline"
                 size="lg"
                 onClick={() => scrollToSection('about')}
+                className="bg-[#0a0a0f] hover:bg-[#151520] border border-slate-700 text-white"
               >
                 <User className="mr-2" size={20} />
                 Sobre Mim
@@ -333,10 +337,10 @@ const App = () => {
                     
                     <div className="flex gap-2">
                       {project.link !== '#' && (
-                        <Button size="sm" asChild>
+                        <Button size="sm" className="btn-gradient-blue" asChild>
                           <a href={project.link} target="_blank" rel="noopener noreferrer">
                             <ExternalLink size={16} className="mr-2" />
-                            Ver Projeto
+                            Acessar
                           </a>
                         </Button>
                       )}
