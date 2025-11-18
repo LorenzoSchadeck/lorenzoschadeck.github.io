@@ -361,11 +361,7 @@ const App = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Vamos Conversar</h2>
-            <p className="text-xl text-muted-foreground mb-12">
-              Interessado em colaborar ou discutir projetos? Entre em contato!
-            </p>
-            
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Vamos Conversar!</h2>
             <div className="flex flex-wrap justify-center gap-4 mb-12">
               <Button size="lg" asChild>
                 <a href="mailto:lorenzo.schadeck@gmail.com">
@@ -385,15 +381,6 @@ const App = () => {
                   GitHub
                 </a>
               </Button>
-            </div>
-            
-            <div className="text-center">
-              <p className="text-muted-foreground italic text-lg mb-2">
-                "Jogos bem-feitos são aqueles que você sente, não apenas joga."
-              </p>
-              <p className="text-sm text-muted-foreground">
-                — Lorenzo Schadeck, Trabalho de Iniciação Científica
-              </p>
             </div>
           </motion.div>
         </div>
