@@ -352,7 +352,7 @@ const App = () => {
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center justify-center gap-1 text-primary text-xs font-medium pt-2 border-t border-primary/20">
+                <div className="featured-card-footer flex items-center justify-center gap-1 text-primary text-xs font-medium pt-2 border-t border-primary/20">
                   <span>Jogar Agora</span>
                   <ArrowRight size={14} />
                 </div>
