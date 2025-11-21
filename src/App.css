@@ -126,6 +126,98 @@
     background: linear-gradient(135deg, #000000 0%, #0d3a52 100%);
   }
   
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(26, 143, 184, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 143, 184, 0.08) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse at center, black 0%, transparent 75%);
+  }
+  
+  .hero-grid::before,
+  .hero-grid::after {
+    content: '';
+    position: absolute;
+    background: linear-gradient(90deg, transparent, rgba(93, 213, 255, 0.8), transparent);
+    pointer-events: none;
+  }
+  
+  .hero-grid::before {
+    width: 2px;
+    height: 100%;
+    animation: energyVertical1 4s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(93, 213, 255, 0.6);
+  }
+  
+  .hero-grid::after {
+    width: 100%;
+    height: 2px;
+    animation: energyHorizontal1 5s ease-in-out infinite 1s;
+    box-shadow: 0 0 20px rgba(93, 213, 255, 0.6);
+  }
+  
+  @keyframes energyVertical1 {
+    0% {
+      left: 15%;
+      top: -10%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    50% {
+      left: 15%;
+      top: 110%;
+      opacity: 1;
+    }
+    50.01% {
+      left: 65%;
+      top: -10%;
+      opacity: 0;
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      left: 65%;
+      top: 110%;
+      opacity: 1;
+    }
+  }
+  
+  @keyframes energyHorizontal1 {
+    0% {
+      left: -10%;
+      top: 25%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    50% {
+      left: 110%;
+      top: 25%;
+      opacity: 1;
+    }
+    50.01% {
+      left: -10%;
+      top: 75%;
+      opacity: 0;
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      left: 110%;
+      top: 75%;
+      opacity: 1;
+    }
+  }
+  
+
+  
   .nav-elevated {
     background: linear-gradient(135deg, #000000 0%, #0d3a52 100%);
     box-shadow: 
@@ -154,6 +246,7 @@
     mask-composite: exclude;
     opacity: 0;
     transition: opacity 0.4s ease;
+    pointer-events: none;
   }
   
   .card-hover:hover::before {
@@ -182,11 +275,53 @@
   .btn-gradient-blue {
     background: linear-gradient(135deg, #0d3a52 0%, #1a8fb8 100%);
     border: none;
+    color: white;
   }
   
   .btn-gradient-blue:hover {
     background: linear-gradient(135deg, #0a2e42 0%, #157a9f 100%);
     box-shadow: 0 4px 12px rgba(26, 143, 184, 0.4);
+    color: white;
+  }
+  
+  .btn-gradient-purple {
+    background: linear-gradient(135deg, #4a1a5c 0%, #7b3f8f 100%);
+    border: none;
+  }
+  
+  .btn-gradient-purple:hover {
+    background: linear-gradient(135deg, #3a1047 0%, #6a2f7a 100%);
+    box-shadow: 0 4px 12px rgba(123, 63, 143, 0.4);
+  }
+  
+  .contact-button {
+    position: relative;
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(13, 58, 82, 0.4) 0%, rgba(26, 143, 184, 0.2) 100%);
+    border: 1px solid rgba(26, 143, 184, 0.4);
+  }
+  
+  .contact-button::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(26, 143, 184, 0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .contact-button:hover::before {
+    opacity: 1;
+  }
+  
+  .contact-button:hover {
+    transform: translateY(-3px) scale(1.02);
+    border-color: rgba(26, 143, 184, 0.8);
+    background: linear-gradient(135deg, rgba(13, 58, 82, 0.6) 0%, rgba(26, 143, 184, 0.4) 100%);
+    box-shadow: 
+      0 8px 24px rgba(26, 143, 184, 0.4),
+      0 0 20px rgba(26, 143, 184, 0.2);
   }
   
   .nav-button {
@@ -258,6 +393,58 @@
   }
 }
 
+.featured-card {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, rgba(13, 58, 82, 0.4) 0%, rgba(10, 10, 15, 0.6) 100%);
+  border: 1px solid rgba(26, 143, 184, 0.4);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  width: 380px;
+}
+
+.featured-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(26, 143, 184, 0.6), rgba(93, 213, 255, 0.4));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.featured-card:hover::before {
+  opacity: 1;
+}
+
+.featured-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  border-color: rgba(26, 143, 184, 0.7);
+  box-shadow: 
+    0 16px 48px rgba(26, 143, 184, 0.4),
+    0 8px 16px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.featured-badge {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(26, 143, 184, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(26, 143, 184, 0.8);
+  }
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -275,6 +462,40 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    left: -10%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    left: 110%;
+    opacity: 0;
   }
 }
 

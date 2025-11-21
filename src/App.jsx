@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Linkedin, Mail, ExternalLink, Play, Code, Gamepad2, User, Briefcase, MessageCircle, ChevronDown, Menu, X, Brain, GitBranch, Puzzle, LayoutGrid, MonitorPlay } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Play, Code, Gamepad2, User, Briefcase, MessageCircle, ChevronDown, Menu, X, Brain, GitBranch, Puzzle, LayoutGrid, MonitorPlay, Ghost, Trophy, Sparkles, ArrowRight } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Card, CardContent } from './components/ui/card';
 import { Badge } from './components/ui/badge';
@@ -27,9 +27,94 @@ const App = () => {
   const [currentDemoVideo, setCurrentDemoVideo] = useState('');
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+      
+      // Detectar qual seção está visível
+      const sections = ['home', 'about', 'projects', 'contact'];
+      const scrollPosition = window.scrollY + 150; // Offset da navbar + margem
+      
+      let currentSection = 'home';
+      
+      // Verificar da última para a primeira seção
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const sectionId = sections[i];
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const { offsetTop } = element;
+          // Se passou do início da seção
+          if (scrollPosition >= offsetTop - 100) {
+            currentSection = sectionId;
+            break;
+          }
+        }
+      }
+      
+      // Caso especial: se chegou perto do fim da página, sempre mostrar contatos
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      if (window.scrollY + windowHeight >= documentHeight - 50) {
+        currentSection = 'contact';
+      }
+      
+      setActiveSection(currentSection);
+    };
+    
+    handleScroll(); // Chamar imediatamente para definir seção inicial
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Adicionar linhas de energia aleatórias ao grid
+  useEffect(() => {
+    const gridElement = document.querySelector('.hero-grid');
+    if (!gridElement) return;
+
+    const createEnergyLine = () => {
+      const line = document.createElement('div');
+      const isVertical = Math.random() > 0.5;
+      const position = Math.random() * 80 + 10; // 10% a 90%
+      const duration = Math.random() * 3 + 3; // 3-6 segundos
+      const delay = Math.random() * 2; // 0-2 segundos de delay
+      
+      if (isVertical) {
+        line.style.cssText = `
+          position: absolute;
+          width: 2px;
+          height: 100%;
+          left: ${position}%;
+          top: -10%;
+          background: linear-gradient(180deg, transparent, rgba(93, 213, 255, 0.6), transparent);
+          box-shadow: 0 0 15px rgba(93, 213, 255, 0.5);
+          pointer-events: none;
+          animation: slideDown ${duration}s ease-in-out ${delay}s;
+        `;
+      } else {
+        line.style.cssText = `
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          left: -10%;
+          top: ${position}%;
+          background: linear-gradient(90deg, transparent, rgba(93, 213, 255, 0.6), transparent);
+          box-shadow: 0 0 15px rgba(93, 213, 255, 0.5);
+          pointer-events: none;
+          animation: slideRight ${duration}s ease-in-out ${delay}s;
+        `;
+      }
+      
+      gridElement.appendChild(line);
+      
+      setTimeout(() => {
+        line.remove();
+      }, (duration + delay) * 1000);
+    };
+
+    // Criar linhas periodicamente
+    const interval = setInterval(createEnergyLine, 5000);
+    createEnergyLine(); // Criar uma imediatamente
+    
+    return () => clearInterval(interval);
   }, []);
 
   const projects = [
@@ -47,12 +132,12 @@ const App = () => {
     {
       id: 2,
       title: "Echoes: Capítulo 1",
-      description: "Jogo de horror psicológico em desenvolvimento como parte do Trabalho de Iniciação Científica (TIC ), explorando imersão e narrativa interativa.",
+      description: "Jogo de horror psicológico desenvolvido como parte do Trabalho de Iniciação Científica (TIC), explorando imersão e narrativa interativa.",
       image: ECHimg,
       video: ECHvid,
       technologies: ["Unity", "C#", "Psychological Horror", "Narrative Design"],
       link: "https://lorenzoschadeck.itch.io/echoes-chapter-1",
-      status: "Em Desenvolvimento",
+      status: "Concluído",
       role: "Lead Developer"
     },
     {
@@ -96,8 +181,16 @@ const App = () => {
   const scrollToSection = (sectionId ) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(sectionId);
+      // Desabilitar temporariamente a detecção automática ao clicar
+      const offset = 80; // Altura da navbar
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      
       setIsMenuOpen(false);
     }
   };
@@ -181,6 +274,9 @@ const App = () => {
 
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center hero-gradient relative overflow-hidden">
+        {/* Grid Pattern */}
+        <div className="hero-grid" />
+        
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5" />
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <motion.div
@@ -194,7 +290,13 @@ const App = () => {
               <span className="text-gradient">Lorenzo</span>
             </h1>
             <div className="text-xl md:text-2xl text-muted-foreground space-y-2">
-              <p>🎮 Game Developer | 🧠 C# Programmer | 🕹️ Unity3D</p>
+              <p className="flex items-center justify-center gap-3 flex-wrap">
+                <span className="flex items-center gap-1"><Gamepad2 size={20} className="text-primary" /> Game Developer</span>
+                <span className="text-muted-foreground">|</span>
+                <span className="flex items-center gap-1"><Code size={20} className="text-primary" /> C# Programmer</span>
+                <span className="text-muted-foreground">|</span>
+                <span className="flex items-center gap-1"><LayoutGrid size={20} className="text-primary" /> Unity3D</span>
+              </p>
               <p className="text-lg">Desenvolvendo experiências interativas que combinam complexidade técnica e gameplay envolvente.</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
@@ -217,6 +319,47 @@ const App = () => {
             </div>
           </motion.div>
         </div>
+        
+        {/* Featured Game Card - Bottom Right */}
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="absolute bottom-8 right-8 z-20 hidden md:block"
+        >
+          <a 
+            href="https://lorenzoschadeck.itch.io/echoes-chapter-1" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="block"
+          >
+            <Card className="featured-card overflow-hidden">
+              <CardContent className="p-3">
+                <div className="flex items-center gap-3 mb-2">
+                  <img
+                    src={ECHimg}
+                    alt="Echoes: Capítulo 1"
+                    className="w-20 h-20 rounded-md object-cover border border-primary/30"
+                  />
+                  <div className="flex-1">
+                    <Badge className="featured-badge bg-primary/20 text-primary border-primary/40 text-xs mb-1.5">
+                      <Sparkles size={10} className="mr-1" />
+                      Novo
+                    </Badge>
+                    <h3 className="text-sm font-bold text-white leading-tight mb-1">Echoes: Capítulo 1</h3>
+                    <p className="text-xs text-slate-300 line-clamp-2 mb-2">
+                      Horror psicológico explorando imersão e narrativa.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-center gap-1 text-primary text-xs font-medium pt-2 border-t border-primary/20">
+                  <span>Jogar Agora</span>
+                  <ArrowRight size={14} />
+                </div>
+              </CardContent>
+            </Card>
+          </a>
+        </motion.div>
         
         <motion.div
           animate={{ y: [0, -10, 0] }}
@@ -258,9 +401,9 @@ const App = () => {
                 <CardContent className="p-8">
                   <h3 className="text-2xl font-bold mb-4 text-gradient">Atualmente</h3>
                   <ul className="space-y-3 text-muted-foreground">
-                    <li>👻 Desenvolvendo <strong>Horror Story Folks</strong></li>
-                    <li>🧠 Desenvolvedor de <strong>Echoes: Capítulo 1</strong></li>
-                    <li>🏆 Participante ativo de <strong>Game Jams</strong></li>
+                    <li>Desenvolvendo <strong>Horror Story Folks</strong>.</li>
+                    <li>Desenvolvendo <strong>DeepFall</strong>.</li>
+                    <li>Participante ativo de Game Jams.</li>
                   </ul>
                 </CardContent>
               </Card>
@@ -344,9 +487,9 @@ const App = () => {
                           </a>
                         </Button>
                       )}
-                      <Button size="sm" variant="outline" onClick={() => openDemoModal(project.video)}>
+                      <Button size="sm" className="btn-gradient-blue" onClick={() => openDemoModal(project.video)}>
                         <Play size={16} className="mr-2" />
-                        Play
+                        Trailer
                       </Button>
                     </div>
                   </CardContent>
@@ -367,19 +510,25 @@ const App = () => {
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6">Vamos Conversar!</h2>
             <div className="flex flex-wrap justify-center gap-4 mb-12">
-              <Button size="lg" asChild>
+              <Button size="lg" className="contact-button" asChild>
                 <a href="mailto:lorenzo.schadeck@gmail.com">
                   <Mail className="mr-2" size={20} />
                   Email
                 </a>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" className="contact-button" asChild>
+                <a href="https://discord.com/users/dick0424" target="_blank" rel="noopener noreferrer">
+                  <MessageCircle className="mr-2" size={20} />
+                  Discord
+                </a>
+              </Button>
+              <Button size="lg" className="contact-button" asChild>
                 <a href="https://www.linkedin.com/in/lorenzoschadeck/" target="_blank" rel="noopener noreferrer">
                   <Linkedin className="mr-2" size={20} />
                   LinkedIn
                 </a>
               </Button>
-              <Button size="lg" variant="outline" asChild>
+              <Button size="lg" className="contact-button" asChild>
                 <a href="https://github.com/LorenzoSchadeck" target="_blank" rel="noopener noreferrer">
                   <Github className="mr-2" size={20} />
                   GitHub
